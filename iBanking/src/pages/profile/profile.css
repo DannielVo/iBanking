@@ -1,0 +1,67 @@
+.form-container {
+  background-color: var(--secondary-background);
+  padding-block: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  /* border: 1px solid; */
+}
+
+.details-container {
+  width: 38%;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  background-color: white;
+}
+
+.details-title {
+  margin: 0 0 25px;
+  font-size: 25px;
+  color: var(--text-color);
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+}
+
+.details-form-group {
+  margin-bottom: 20px;
+}
+
+.details-form-group label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.details-form-group input {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+.details-form-group input:focus {
+  outline: none;
+  border: 2px solid var(--blue-item);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+.confirm-btn {
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+  font-size: 15px;
+  color: var(--main-background);
+  background: var(--blur-item);
+  cursor: pointer;
+  transition: 0.3s;
+  margin-bottom: 20px;
+}
+
+.confirm-btn:hover {
+  background: var(--blue-item);
+}
