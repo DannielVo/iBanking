@@ -8,7 +8,7 @@ const Profile = () => {
     <>
       <Header></Header>
       <div className="form-container">
-        {/* Lock phần này, ko cho user sửa */}
+        {/* Lock phần này (được tự động điền cho user), ko cho user sửa */}
         <div className="details-container">
           <h2 className="details-title">Your details</h2>
           <form action="">

@@ -7,8 +7,8 @@ import Profile from "./pages/profile/Profile";
 const App = () => {
   return (
     <>
-      <Login></Login>
-      {/* <Profile></Profile> */}
+      {/* <Login></Login> */}
+      <Profile></Profile>
     </>
   );
 };
