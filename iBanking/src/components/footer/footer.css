@@ -1,0 +1,27 @@
+.footer-wrapper {
+  padding-inline: 150px;
+}
+
+footer {
+  background-color: var(--main-background);
+  padding: 10px 0 5px;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-logo img {
+  width: 200px;
+  height: 100px;
+  object-fit: contain;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
