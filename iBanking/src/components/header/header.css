@@ -1,0 +1,29 @@
+header {
+  border-bottom: 1px solid lightgray;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo img {
+  height: 65px;
+}
+
+.nav-right a {
+  color: var(--text-color);
+  text-decoration: none;
+  margin-left: 25px;
+  font-size: 18px;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-right a:hover {
+  color: var(--blur-item);
+}
