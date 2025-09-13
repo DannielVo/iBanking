@@ -8,12 +8,25 @@
 
 .login-container {
   width: 500px;
-  height: 350px;
+  min-height: 350px;
   background-color: var(--main-background);
   border: none;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px 30px;
+}
+
+.login-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.login-header img {
+  height: 80px;
+  object-fit: contain;
 }
 
 .login-title {

@@ -1,11 +1,15 @@
 import React from "react";
 import "./login.css";
+import { assets } from "../../assets/assets";
 
 const Login = () => {
   return (
     <div className="login-wrapper">
       <div className="login-container">
-        <h2 className="login-title">Log in</h2>
+        <div className="login-header">
+          <img src={assets.mainLogo} alt="" />
+          {/* <h2 className="login-title">Log in</h2> */}
+        </div>
 
         <form>
           <div className="login-form-group">
