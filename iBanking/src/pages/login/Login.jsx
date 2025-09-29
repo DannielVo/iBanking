@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./login.css";
 import { assets } from "../../assets/assets";
 
@@ -8,7 +8,6 @@ const Login = () => {
       <div className="login-container">
         <div className="login-header">
           <img src={assets.mainLogo} alt="" />
-          {/* <h2 className="login-title">Log in</h2> */}
         </div>
 
         <form>
@@ -21,6 +20,8 @@ const Login = () => {
             <label htmlFor="">Password</label>
             <input type="password" name="" id="" />
           </div>
+
+          <div className="error-text">Invalid email or password</div>
 
           <div className="login-form-footer">
             <button className="login-btn">Log in</button>
