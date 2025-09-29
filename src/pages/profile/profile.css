@@ -82,11 +82,23 @@
 }
 
 .otp-inactive {
-  display: none;
+  /* display: none; */
 }
 
 .guide-text {
   margin-bottom: 15px;
   text-align: center;
   color: var(--blur-item);
+}
+
+.resend-otp {
+  text-align: center;
+}
+
+.resend-otp a {
+  color: var(--blur-item);
+}
+
+.resend-otp a:hover {
+  color: var(--blue-item);
 }

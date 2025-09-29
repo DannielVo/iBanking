@@ -71,6 +71,17 @@ const Profile = () => {
 
             {/* Button chỉ active khi info ở Tuition và Payment đc điền đủ */}
             <button className="confirm-btn">Confirm</button>
+
+            <div className="resend-otp">
+              Didn’t receive the OTP?{" "}
+              <a
+                href="#"
+                className="resend-btn"
+                onClick={() => alert("Resend OTP")}
+              >
+                Resend
+              </a>
+            </div>
           </form>
         </div>
       </div>
