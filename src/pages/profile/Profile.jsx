@@ -10,7 +10,7 @@ const Profile = () => {
       <div className="form-container">
         {/* Lock phần này (được tự động điền cho user), ko cho user sửa */}
         <div className="details-container">
-          <h2 className="details-title">Your details</h2>
+          <h2 className="details-title">Your Details</h2>
           <form action="">
             <div className="details-form-group">
               <label for="">Full Name</label>

@@ -4,6 +4,7 @@ import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
 import Profile from "./pages/profile/Profile";
 import { Navigate, Route, Routes } from "react-router-dom";
+import PrivateRoute from "./routes/PrivateRoute";
 
 const App = () => {
   return (
@@ -15,7 +16,14 @@ const App = () => {
         ></Route>
 
         <Route path="/login" element={<Login />} />
-        <Route path="/profile" element={<Profile />}></Route>
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <Profile />
+            </PrivateRoute>
+          }
+        ></Route>
       </Routes>
     </>
   );
