@@ -1,9 +1,9 @@
 // src/api.js
 import axios from "axios";
 
-const SERVICES = {
-  account: "http://127.0.0.1:8000",
-  customer: "http://127.0.0.1:8001",
+export const SERVICES = {
+  customer: "http://127.0.0.1:8000/customers",
+  account: "http://127.0.0.1:8001/account",
   auth: "http://127.0.0.1:8002/auth",
   payment: "http://127.0.0.1:8003",
   otp: "http://127.0.0.1:8004",

@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState } from "react";
-import { apiRequest } from "../utils/api";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { apiRequest, SERVICES } from "../utils/api";
 
 const BankingContext = createContext();
 
@@ -8,6 +8,46 @@ export const BankingContextProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [account, setAccount] = useState(null);
+  const [customer, setCustomer] = useState(null);
+
+  const fetchCustomerInfo = async (customerId) => {
+    if (customerId === 0) {
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await apiRequest("customer", "/" + customerId, {
+        method: "GET",
+      });
+      setCustomer(data);
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchAccountInfo = async (customerId) => {
+    if (customerId === 0) {
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await apiRequest("account", "/" + customerId, {
+        method: "GET",
+      });
+      setAccount(data);
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Hàm login
   const login = async (email, password) => {
@@ -42,9 +82,23 @@ export const BankingContextProvider = ({ children }) => {
     localStorage.removeItem("token");
   };
 
+  useEffect(() => {
+    fetchCustomerInfo(customerId);
+    fetchAccountInfo(customerId);
+  }, [customerId]);
+
   return (
     <BankingContext.Provider
-      value={{ customerId, token, loading, error, login, logout }}
+      value={{
+        customerId,
+        token,
+        loading,
+        error,
+        login,
+        logout,
+        account,
+        customer,
+      }}
     >
       {children}
     </BankingContext.Provider>

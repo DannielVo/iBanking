@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import "./profile.css";
 import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
+import { useBanking } from "../../context/BankingContext";
 
 const Profile = () => {
+  const { customer, account, loading } = useBanking();
+
   return (
     <>
       <Header></Header>
@@ -14,17 +17,29 @@ const Profile = () => {
           <form action="">
             <div className="details-form-group">
               <label for="">Full Name</label>
-              <input type="text" disabled="true" />
+              <input
+                type="text"
+                disabled="true"
+                value={customer?.full_name || ""}
+              />
             </div>
 
             <div className="details-form-group">
               <label for="">Phone Number</label>
-              <input type="text" disabled="true" />
+              <input
+                type="text"
+                disabled="true"
+                value={customer?.phone_number || ""}
+              />
             </div>
 
             <div className="details-form-group">
               <label for="">Email</label>
-              <input type="text" disabled="true" />
+              <input
+                type="text"
+                disabled="true"
+                value={customer?.email || ""}
+              />
             </div>
           </form>
         </div>
@@ -61,7 +76,11 @@ const Profile = () => {
           <form action="">
             <div className="details-form-group">
               <label for="">Available Balance</label>
-              <input type="text" disabled="true" />
+              <input
+                type="text"
+                disabled="true"
+                value={account?.balance || ""}
+              />
             </div>
 
             <div className="details-form-group otp-inactive" id="otp-input">
