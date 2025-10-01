@@ -11,6 +11,47 @@ export const BankingContextProvider = ({ children }) => {
   const [account, setAccount] = useState(null);
   const [customer, setCustomer] = useState(null);
 
+  // Lấy thtin upaid payment của unpaid customer
+  const fetchUnpaidPayment = async (customerId) => {
+    if (customerId === 0) {
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await apiRequest("payment", "/unpaid/" + customerId, {
+        method: "GET",
+      });
+      return data;
+    } catch (err) {
+      setError(err.detail);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Lấy thtin unpaid customer
+  const fetchCustomerPayment = async (customerId) => {
+    if (customerId === 0) {
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await apiRequest("customer", "/" + customerId, {
+        method: "GET",
+      });
+      return data;
+    } catch (err) {
+      setError(err.detail);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Lấy thtin customer của user login
   const fetchCustomerInfo = async (customerId) => {
     if (customerId === 0) {
       return;
@@ -23,13 +64,14 @@ export const BankingContextProvider = ({ children }) => {
       });
       setCustomer(data);
     } catch (err) {
-      setError(err.message);
+      setError(err.detail);
       throw err;
     } finally {
       setLoading(false);
     }
   };
 
+  // Lấy thtin account của user login
   const fetchAccountInfo = async (customerId) => {
     if (customerId === 0) {
       return;
@@ -98,6 +140,9 @@ export const BankingContextProvider = ({ children }) => {
         logout,
         account,
         customer,
+        fetchCustomerInfo,
+        fetchCustomerPayment,
+        fetchUnpaidPayment,
       }}
     >
       {children}

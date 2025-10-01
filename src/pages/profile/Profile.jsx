@@ -5,7 +5,32 @@ import Footer from "../../components/footer/Footer";
 import { useBanking } from "../../context/BankingContext";
 
 const Profile = () => {
-  const { customer, account, loading } = useBanking();
+  const {
+    customer,
+    account,
+    loading,
+    fetchCustomerInfo,
+    fetchCustomerPayment,
+    fetchUnpaidPayment,
+  } = useBanking();
+
+  const [customerPayment, setCustomerPayment] = useState(null);
+  const [payment, setPayment] = useState(null);
+
+  const findCustomerPayment = async (e) => {
+    if (e.key == "Enter") {
+      try {
+        const customerPaymentId = e.target.value;
+        const customerData = await fetchCustomerPayment(customerPaymentId);
+        setCustomerPayment(customerData);
+
+        const paymentData = await fetchUnpaidPayment(customerPaymentId);
+        setPayment(paymentData);
+      } catch (error) {
+        alert(error.detail);
+      }
+    }
+  };
 
   return (
     <>
@@ -55,18 +80,26 @@ const Profile = () => {
           <form action="">
             <div className="details-form-group">
               <label for="">Student ID</label>
-              <input type="text" />
+              <input type="text" onKeyDown={(e) => findCustomerPayment(e)} />
             </div>
 
             <div className="error-studentId">Invalid student ID</div>
 
             <div className="details-form-group">
               <label for="">Student Full Name</label>
-              <input type="text" disabled="true" />
+              <input
+                type="text"
+                disabled="true"
+                value={customerPayment?.full_name || ""}
+              />
             </div>
             <div className="details-form-group">
               <label for="">Amount of tuition</label>
-              <input type="text" disabled="true" />
+              <input
+                type="text"
+                disabled="true"
+                value={payment?.amount || ""}
+              />
             </div>
           </form>
         </div>
