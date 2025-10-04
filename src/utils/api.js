@@ -7,7 +7,7 @@ export const SERVICES = {
   auth: "http://127.0.0.1:8002/auth",
   payment: "http://127.0.0.1:8003/payment",
   otp: "http://127.0.0.1:8004",
-  email: "http://127.0.0.1:8005",
+  email: "http://127.0.0.1:8005/email",
 };
 
 // Hàm chung gọi API

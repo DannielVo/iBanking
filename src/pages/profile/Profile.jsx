@@ -12,10 +12,12 @@ const Profile = () => {
     fetchCustomerInfo,
     fetchCustomerPayment,
     fetchUnpaidPayment,
+    sendOtpEmail,
   } = useBanking();
 
   const [customerPayment, setCustomerPayment] = useState(null);
   const [payment, setPayment] = useState(null);
+  const [isSentOtp, setIsSentOtp] = useState(false);
 
   const findCustomerPayment = async (e) => {
     if (e.key == "Enter") {
@@ -30,6 +32,35 @@ const Profile = () => {
         alert(error.detail);
       }
     }
+  };
+
+  const handleOtpEvent = (e) => {
+    e.preventDefault();
+    if (isSentOtp) {
+      // Đã gửi rồi
+      // Thực hiện logic confirm:
+      /* 
+        - Lấy input OTP mà customer nhập
+        - Gọi hàm API validate OTP
+        - Nếu OTP hợp lệ thì gọi API make_payment của payment service
+        - Nếu ko hợp lệ thì hiện lỗi
+      */
+      setIsSentOtp(false);
+    } else {
+      // Chưa gửi
+      // Thực hiện send otp
+      /* 
+        - Lấy customerId của thg login
+        - Gọi API tới email service để gọi hàm send_confirmation
+        - Chuyển nút thành confirm
+      */
+      sendOtpEmail();
+      setIsSentOtp(true);
+    }
+  };
+
+  const handleSendOtp = () => {
+    sendOtpEmail();
   };
 
   return (
@@ -106,7 +137,7 @@ const Profile = () => {
 
         <div className="details-container">
           <h2 className="details-title">Payment Information</h2>
-          <form action="">
+          <form onSubmit={(e) => handleOtpEvent(e)}>
             <div className="details-form-group">
               <label for="">Available Balance</label>
               <input
@@ -122,18 +153,22 @@ const Profile = () => {
             </div>
 
             {/* Button chỉ active khi info ở Tuition và Payment đc điền đủ */}
-            <button className="confirm-btn">Confirm</button>
+            <button className="confirm-btn" type="submit">
+              {isSentOtp ? "Confirm" : "Send OTP"}
+            </button>
 
-            <div className="resend-otp">
-              Didn’t receive the OTP?{" "}
-              <a
-                href="#"
-                className="resend-btn"
-                onClick={() => alert("Resend OTP")}
-              >
-                Resend
-              </a>
-            </div>
+            {isSentOtp && (
+              <div className="resend-otp">
+                Didn’t receive the OTP?{" "}
+                <a
+                  href="#"
+                  className="resend-btn"
+                  onClick={() => handleSendOtp()}
+                >
+                  Resend
+                </a>
+              </div>
+            )}
           </form>
         </div>
       </div>

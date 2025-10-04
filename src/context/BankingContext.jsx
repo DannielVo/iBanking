@@ -11,6 +11,23 @@ export const BankingContextProvider = ({ children }) => {
   const [account, setAccount] = useState(null);
   const [customer, setCustomer] = useState(null);
 
+  const sendOtpEmail = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await apiRequest("email", "/send-confirmation/", {
+        method: "POST",
+        body: JSON.stringify({ customerId: customerId }),
+      });
+      return data;
+    } catch (err) {
+      setError(err.detail);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Lấy thtin upaid payment của unpaid customer
   const fetchUnpaidPayment = async (customerId) => {
     if (customerId === 0) {
@@ -143,6 +160,7 @@ export const BankingContextProvider = ({ children }) => {
         fetchCustomerInfo,
         fetchCustomerPayment,
         fetchUnpaidPayment,
+        sendOtpEmail,
       }}
     >
       {children}
