@@ -6,7 +6,7 @@ export const SERVICES = {
   account: "http://127.0.0.1:8001/account",
   auth: "http://127.0.0.1:8002/auth",
   payment: "http://127.0.0.1:8003/payment",
-  otp: "http://127.0.0.1:8004",
+  otp: "http://127.0.0.1:8004/otp",
   email: "http://127.0.0.1:8005/email",
 };
 

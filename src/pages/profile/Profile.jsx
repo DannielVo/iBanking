@@ -13,11 +13,14 @@ const Profile = () => {
     fetchCustomerPayment,
     fetchUnpaidPayment,
     sendOtpEmail,
+    verifyOtpEmail,
   } = useBanking();
 
   const [customerPayment, setCustomerPayment] = useState(null);
   const [payment, setPayment] = useState(null);
   const [isSentOtp, setIsSentOtp] = useState(false);
+  const [errorOtp, setErrorOtp] = useState("");
+  const [otpValue, setOtpValue] = useState("");
 
   const findCustomerPayment = async (e) => {
     if (e.key == "Enter") {
@@ -34,7 +37,7 @@ const Profile = () => {
     }
   };
 
-  const handleOtpEvent = (e) => {
+  const handleOtpEvent = async (e) => {
     e.preventDefault();
     if (isSentOtp) {
       // Đã gửi rồi
@@ -45,7 +48,12 @@ const Profile = () => {
         - Nếu OTP hợp lệ thì gọi API make_payment của payment service
         - Nếu ko hợp lệ thì hiện lỗi
       */
-      setIsSentOtp(false);
+      try {
+        verifyOtpEmail(otpValue);
+        // alert("OTP hợp lệ");
+      } catch (error) {
+        setErrorOtp(error.detail || "Something went wrong! Please try again!");
+      }
     } else {
       // Chưa gửi
       // Thực hiện send otp
@@ -149,8 +157,16 @@ const Profile = () => {
 
             <div className="details-form-group otp-inactive" id="otp-input">
               <label for="">OTP code</label>
-              <input type="text" />
+              <input
+                type="text"
+                value={otpValue}
+                onChange={(e) => {
+                  setOtpValue(e.target.value);
+                }}
+              />
             </div>
+
+            <div className="error-studentId">{errorOtp}</div>
 
             {/* Button chỉ active khi info ở Tuition và Payment đc điền đủ */}
             <button className="confirm-btn" type="submit">

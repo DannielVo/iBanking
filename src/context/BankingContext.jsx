@@ -11,6 +11,27 @@ export const BankingContextProvider = ({ children }) => {
   const [account, setAccount] = useState(null);
   const [customer, setCustomer] = useState(null);
 
+  const verifyOtpEmail = async (otp) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await apiRequest("otp", "/verify", {
+        method: "POST",
+        body: JSON.stringify({
+          userId: customerId,
+          otpCode: otp,
+        }),
+      });
+      alert("OTP hợp lệ");
+      return data;
+    } catch (err) {
+      setError(err.detail);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const sendOtpEmail = async () => {
     setLoading(true);
     setError(null);
@@ -161,6 +182,7 @@ export const BankingContextProvider = ({ children }) => {
         fetchCustomerPayment,
         fetchUnpaidPayment,
         sendOtpEmail,
+        verifyOtpEmail,
       }}
     >
       {children}
