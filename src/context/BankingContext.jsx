@@ -11,6 +11,28 @@ export const BankingContextProvider = ({ children }) => {
   const [account, setAccount] = useState(null);
   const [customer, setCustomer] = useState(null);
 
+  const makePayment = async (customerPaymentId) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await apiRequest("payment", "/make", {
+        method: "POST",
+        body: JSON.stringify({
+          accountId: account.account_id,
+          customerId: customerId,
+          customerPaymentId: customerPaymentId,
+        }),
+      });
+      await fetchAccountInfo(customerId); // cập nhật biến account để update balance
+      return data;
+    } catch (err) {
+      setError(err.detail);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const verifyOtpEmail = async (otp) => {
     setLoading(true);
     setError(null);
@@ -183,6 +205,7 @@ export const BankingContextProvider = ({ children }) => {
         fetchUnpaidPayment,
         sendOtpEmail,
         verifyOtpEmail,
+        makePayment,
       }}
     >
       {children}

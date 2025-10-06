@@ -14,6 +14,7 @@ const Profile = () => {
     fetchUnpaidPayment,
     sendOtpEmail,
     verifyOtpEmail,
+    makePayment,
   } = useBanking();
 
   const [customerPayment, setCustomerPayment] = useState(null);
@@ -21,15 +22,17 @@ const Profile = () => {
   const [isSentOtp, setIsSentOtp] = useState(false);
   const [errorOtp, setErrorOtp] = useState("");
   const [otpValue, setOtpValue] = useState("");
+  const [customerPaymentId, setCustomerPaymentId] = useState("");
 
   const findCustomerPayment = async (e) => {
     if (e.key == "Enter") {
       try {
-        const customerPaymentId = e.target.value;
-        const customerData = await fetchCustomerPayment(customerPaymentId);
+        const customerPaymentIdValue = e.target.value;
+        setCustomerPaymentId(customerPaymentIdValue);
+        const customerData = await fetchCustomerPayment(customerPaymentIdValue);
         setCustomerPayment(customerData);
 
-        const paymentData = await fetchUnpaidPayment(customerPaymentId);
+        const paymentData = await fetchUnpaidPayment(customerPaymentIdValue);
         setPayment(paymentData);
       } catch (error) {
         alert(error.detail);
@@ -49,8 +52,9 @@ const Profile = () => {
         - Nếu ko hợp lệ thì hiện lỗi
       */
       try {
-        verifyOtpEmail(otpValue);
-        // alert("OTP hợp lệ");
+        await verifyOtpEmail(otpValue);
+        await makePayment(customerPaymentId);
+        alert("Thanh toán thành công");
       } catch (error) {
         setErrorOtp(error.detail || "Something went wrong! Please try again!");
       }
