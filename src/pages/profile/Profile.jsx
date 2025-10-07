@@ -42,6 +42,7 @@ const Profile = () => {
 
         const paymentData = await fetchUnpaidPayment(customerPaymentIdValue);
         setPayment(paymentData);
+        setErrorStudentPayment("");
       } catch (error) {
         setErrorStudentPayment(error.detail);
       }
@@ -82,6 +83,14 @@ const Profile = () => {
   const handleSendOtp = () => {
     sendOtpEmail();
   };
+
+  const isBtnSendOtpAvailable =
+    customerPaymentId !== "" &&
+    customerPayment !== null &&
+    errorStudentPayment === "" &&
+    payment !== null &&
+    account !== null &&
+    payment.amount <= account.balance;
 
   return (
     <>
@@ -166,21 +175,28 @@ const Profile = () => {
               />
             </div>
 
-            <div className="details-form-group otp-inactive" id="otp-input">
-              <label for="">OTP code</label>
-              <input
-                type="text"
-                value={otpValue}
-                onChange={(e) => {
-                  setOtpValue(e.target.value);
-                }}
-              />
-            </div>
-
-            <div className="error-studentId">{errorOtp}</div>
+            {isSentOtp && (
+              <>
+                <div className="details-form-group otp-inactive" id="otp-input">
+                  <label for="">OTP code</label>
+                  <input
+                    type="text"
+                    value={otpValue}
+                    onChange={(e) => {
+                      setOtpValue(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="error-studentId">{errorOtp}</div>
+              </>
+            )}
 
             {/* Button chỉ active khi info ở Tuition và Payment đc điền đủ */}
-            <button className="confirm-btn" type="submit">
+            <button
+              className="confirm-btn"
+              type="submit"
+              disabled={!isBtnSendOtpAvailable}
+            >
               {isSentOtp ? "Confirm" : "Send OTP"}
             </button>
 
