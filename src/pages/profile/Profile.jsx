@@ -23,10 +23,18 @@ const Profile = () => {
   const [errorOtp, setErrorOtp] = useState("");
   const [otpValue, setOtpValue] = useState("");
   const [customerPaymentId, setCustomerPaymentId] = useState("");
+  const [errorStudentPayment, setErrorStudentPayment] = useState("");
 
   const findCustomerPayment = async (e) => {
     if (e.key == "Enter") {
       try {
+        if (e.target.value === "") {
+          setErrorStudentPayment("");
+          setCustomerPaymentId("");
+          setCustomerPayment(null);
+          setPayment(null);
+          return;
+        }
         const customerPaymentIdValue = e.target.value;
         setCustomerPaymentId(customerPaymentIdValue);
         const customerData = await fetchCustomerPayment(customerPaymentIdValue);
@@ -35,7 +43,7 @@ const Profile = () => {
         const paymentData = await fetchUnpaidPayment(customerPaymentIdValue);
         setPayment(paymentData);
       } catch (error) {
-        alert(error.detail);
+        setErrorStudentPayment(error.detail);
       }
     }
   };
@@ -124,9 +132,8 @@ const Profile = () => {
             <div className="details-form-group">
               <label for="">Student ID</label>
               <input type="text" onKeyDown={(e) => findCustomerPayment(e)} />
+              <div className="error-studentId">{errorStudentPayment}</div>
             </div>
-
-            <div className="error-studentId">Invalid student ID</div>
 
             <div className="details-form-group">
               <label for="">Student Full Name</label>
