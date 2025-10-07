@@ -123,6 +123,7 @@ export const BankingContextProvider = ({ children }) => {
         method: "GET",
       });
       setCustomer(data);
+      localStorage.setItem("customer", JSON.stringify(data));
     } catch (err) {
       setError(err.detail);
       throw err;
@@ -143,6 +144,7 @@ export const BankingContextProvider = ({ children }) => {
         method: "GET",
       });
       setAccount(data);
+      localStorage.setItem("account", JSON.stringify(data));
     } catch (err) {
       setError(err.message);
       throw err;
@@ -182,12 +184,31 @@ export const BankingContextProvider = ({ children }) => {
     setToken(null);
     setCustomerId(0);
     localStorage.removeItem("token");
+    localStorage.removeItem("customer");
+    localStorage.removeItem("account");
   };
 
   useEffect(() => {
     fetchCustomerInfo(customerId);
     fetchAccountInfo(customerId);
   }, [customerId]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const customer = localStorage.getItem("customer");
+    const account = localStorage.getItem("account");
+
+    if (token) {
+      setToken(token);
+      if (customer) {
+        setCustomer(JSON.parse(customer));
+        setCustomerId(JSON.parse(customer).customer_id);
+      }
+      if (account) {
+        setAccount(JSON.parse(account));
+      }
+    }
+  }, []);
 
   return (
     <BankingContext.Provider
