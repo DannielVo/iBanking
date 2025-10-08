@@ -99,6 +99,7 @@
 
 .resend-otp {
   text-align: center;
+  margin-bottom: 15px;
 }
 
 .resend-otp a {
@@ -107,4 +108,38 @@
 
 .resend-otp a:hover {
   color: var(--blue-item);
+}
+
+.error-payment {
+  padding: 10px;
+  background: rgba(255, 0, 0, 0.2);
+  color: red;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.success-payment {
+  padding: 10px;
+  background: rgba(0, 255, 0, 0.2);
+  color: green;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.time-left {
+  text-align: center;
+}
+
+.resend-disable {
+  color: grey;
+  opacity: 0.6;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.resend-btn {
+  cursor: pointer;
+  text-decoration: underline;
 }

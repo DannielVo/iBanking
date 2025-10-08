@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./profile.css";
 import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
@@ -20,19 +20,27 @@ const Profile = () => {
   const [customerPayment, setCustomerPayment] = useState(null);
   const [payment, setPayment] = useState(null);
   const [isSentOtp, setIsSentOtp] = useState(false);
-  const [errorOtp, setErrorOtp] = useState("");
+  const [otpMsg, setOtpMsg] = useState("");
   const [otpValue, setOtpValue] = useState("");
   const [customerPaymentId, setCustomerPaymentId] = useState("");
   const [errorStudentPayment, setErrorStudentPayment] = useState("");
+  const [isErrorPayment, setIsErrorPayment] = useState(null);
+  const [timeLeft, setTimeLeft] = useState(0); // ban đầu = 0, chưa chạy
+  const timerRef = useRef(null);
+
+  const resetTuitionInfo = () => {
+    setErrorStudentPayment("");
+    setCustomerPaymentId("");
+    setCustomerPayment(null);
+    setPayment(null);
+    setIsSentOtp(false);
+  };
 
   const findCustomerPayment = async (e) => {
     if (e.key == "Enter") {
       try {
         if (e.target.value === "") {
-          setErrorStudentPayment("");
-          setCustomerPaymentId("");
-          setCustomerPayment(null);
-          setPayment(null);
+          resetTuitionInfo();
           return;
         }
         const customerPaymentIdValue = e.target.value;
@@ -49,6 +57,12 @@ const Profile = () => {
     }
   };
 
+  const handleSendOtp = () => {
+    sendOtpEmail();
+    clearInterval(timerRef.current);
+    setTimeLeft(120);
+  };
+
   const handleOtpEvent = async (e) => {
     e.preventDefault();
     if (isSentOtp) {
@@ -63,9 +77,13 @@ const Profile = () => {
       try {
         await verifyOtpEmail(otpValue);
         await makePayment(customerPaymentId);
-        alert("Thanh toán thành công");
+
+        setIsErrorPayment(false);
+        setOtpMsg("");
+        resetTuitionInfo();
       } catch (error) {
-        setErrorOtp(error.detail || "Something went wrong! Please try again!");
+        setOtpMsg(error.detail || "Something went wrong! Please try again!");
+        setIsErrorPayment(true);
       }
     } else {
       // Chưa gửi
@@ -75,13 +93,9 @@ const Profile = () => {
         - Gọi API tới email service để gọi hàm send_confirmation
         - Chuyển nút thành confirm
       */
-      sendOtpEmail();
+      handleSendOtp();
       setIsSentOtp(true);
     }
-  };
-
-  const handleSendOtp = () => {
-    sendOtpEmail();
   };
 
   const isBtnSendOtpAvailable =
@@ -91,6 +105,34 @@ const Profile = () => {
     payment !== null &&
     account !== null &&
     payment.amount <= account.balance;
+
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${String(minutes).padStart(2, "0")}:${String(secs).padStart(
+      2,
+      "0"
+    )}`;
+  };
+
+  useEffect(() => {
+    if (timeLeft === 0) {
+      clearInterval(timerRef.current);
+      return;
+    }
+
+    timerRef.current = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(timerRef.current);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timerRef.current);
+  }, [timeLeft]); // chỉ chạy lại khi reset
 
   return (
     <>
@@ -140,7 +182,12 @@ const Profile = () => {
           <form action="">
             <div className="details-form-group">
               <label for="">Student ID</label>
-              <input type="text" onKeyDown={(e) => findCustomerPayment(e)} />
+              <input
+                type="text"
+                onKeyDown={(e) => findCustomerPayment(e)}
+                onChange={(e) => setCustomerPaymentId(e.target.value)}
+                value={customerPaymentId}
+              />
               <div className="error-studentId">{errorStudentPayment}</div>
             </div>
 
@@ -187,7 +234,7 @@ const Profile = () => {
                     }}
                   />
                 </div>
-                <div className="error-studentId">{errorOtp}</div>
+                <div className="error-studentId">{otpMsg}</div>
               </>
             )}
 
@@ -201,15 +248,27 @@ const Profile = () => {
             </button>
 
             {isSentOtp && (
-              <div className="resend-otp">
-                Didn’t receive the OTP?{" "}
-                <a
-                  href="#"
-                  className="resend-btn"
-                  onClick={() => handleSendOtp()}
-                >
-                  Resend
-                </a>
+              <>
+                <div className="resend-otp">
+                  Didn’t receive the OTP?{" "}
+                  <a
+                    className={
+                      !isBtnSendOtpAvailable ? "resend-disable" : "resend-btn"
+                    }
+                    onClick={() => handleSendOtp()}
+                  >
+                    Resend
+                  </a>
+                </div>
+                <h3 className="time-left">{formatTime(timeLeft)}</h3>
+              </>
+            )}
+
+            {isErrorPayment !== null && (
+              <div
+                className={isErrorPayment ? "error-payment" : "success-payment"}
+              >
+                <p>{isErrorPayment ? otpMsg : "Transaction Success"}</p>
               </div>
             )}
           </form>
