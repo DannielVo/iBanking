@@ -8,8 +8,6 @@ const Profile = () => {
   const {
     customer,
     account,
-    loading,
-    fetchCustomerInfo,
     fetchCustomerPayment,
     fetchUnpaidPayment,
     sendOtpEmail,
@@ -27,6 +25,8 @@ const Profile = () => {
   const [isErrorPayment, setIsErrorPayment] = useState(null);
   const [timeLeft, setTimeLeft] = useState(0); // ban đầu = 0, chưa chạy
   const timerRef = useRef(null);
+  const [isShowingTimer, setIsShowingTimer] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const resetTuitionInfo = () => {
     setErrorStudentPayment("");
@@ -75,15 +75,18 @@ const Profile = () => {
         - Nếu ko hợp lệ thì hiện lỗi
       */
       try {
+        setIsLoading(true);
         await verifyOtpEmail(otpValue);
         await makePayment(customerPaymentId);
 
         setIsErrorPayment(false);
         setOtpMsg("");
         resetTuitionInfo();
+        setIsLoading(false);
       } catch (error) {
         setOtpMsg(error.detail || "Something went wrong! Please try again!");
         setIsErrorPayment(true);
+        setIsLoading(false);
       }
     } else {
       // Chưa gửi
@@ -260,9 +263,13 @@ const Profile = () => {
                     Resend
                   </a>
                 </div>
-                <h3 className="time-left">{formatTime(timeLeft)}</h3>
+                {!isLoading && (
+                  <h3 className="time-left">{formatTime(timeLeft)}</h3>
+                )}
               </>
             )}
+
+            {isLoading && <div className="note-section-spinner"></div>}
 
             {isErrorPayment !== null && (
               <div

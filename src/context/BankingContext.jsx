@@ -44,7 +44,7 @@ export const BankingContextProvider = ({ children }) => {
           otpCode: otp,
         }),
       });
-      alert("OTP hợp lệ");
+      // alert("OTP hợp lệ");
       return data;
     } catch (err) {
       setError(err.detail);
