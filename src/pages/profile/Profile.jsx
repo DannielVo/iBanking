@@ -61,6 +61,9 @@ const Profile = () => {
     sendOtpEmail();
     clearInterval(timerRef.current);
     setTimeLeft(120);
+    setIsLoading(false);
+    setIsErrorPayment(null);
+    setOtpValue("");
   };
 
   const handleOtpEvent = async (e) => {
@@ -237,7 +240,6 @@ const Profile = () => {
                     }}
                   />
                 </div>
-                <div className="error-studentId">{otpMsg}</div>
               </>
             )}
 
@@ -263,7 +265,7 @@ const Profile = () => {
                     Resend
                   </a>
                 </div>
-                {!isLoading && (
+                {!isLoading && isErrorPayment === null && (
                   <h3 className="time-left">{formatTime(timeLeft)}</h3>
                 )}
               </>
