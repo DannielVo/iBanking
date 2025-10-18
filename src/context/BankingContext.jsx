@@ -172,7 +172,7 @@ export const BankingContextProvider = ({ children }) => {
 
       return data;
     } catch (err) {
-      setError(err.message);
+      setError(err.detail);
       throw err;
     } finally {
       setLoading(false);

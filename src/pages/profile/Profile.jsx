@@ -53,6 +53,9 @@ const Profile = () => {
         setErrorStudentPayment("");
       } catch (error) {
         setErrorStudentPayment(error.detail);
+        setCustomerPayment(null);
+        setPayment(null);
+        setIsSentOtp(false);
       }
     }
   };
@@ -194,6 +197,7 @@ const Profile = () => {
                 onChange={(e) => setCustomerPaymentId(e.target.value)}
                 value={customerPaymentId}
               />
+              {/* Error message for Student Payment */}
               <div className="error-studentId">{errorStudentPayment}</div>
             </div>
 

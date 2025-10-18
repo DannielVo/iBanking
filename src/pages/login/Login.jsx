@@ -11,12 +11,14 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [showError, setShowError] = useState(false);
   const [internalError, setInternalError] = useState(false);
+  const [internalErrorMsg, setInternalErrorMsg] = useState("");
 
   async function handleLogin(e) {
     e.preventDefault();
     try {
-      if (email == "" || password == "") {
+      if (email === "" || password === "") {
         setShowError(true);
+        setInternalError(false);
         return;
       }
       await login(email, password);
@@ -24,6 +26,8 @@ const Login = () => {
     } catch (error) {
       console.error("login fail: " + error);
       setInternalError(true);
+      setInternalErrorMsg(error.detail);
+      setShowError(false);
     }
   }
 
@@ -57,12 +61,15 @@ const Login = () => {
           </div>
 
           {showError && (
-            <div className="error-text">Invalid email or password</div>
+            <div className="error-text">
+              Username or password cannot be empty!
+            </div>
           )}
 
           {internalError && (
             <div className="error-text">
-              Oops! Something went wrong. Please try again later!
+              {internalErrorMsg ||
+                "Oops! Something went wrong. Please try again later!"}
             </div>
           )}
 
