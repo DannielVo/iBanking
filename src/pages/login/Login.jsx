@@ -1,8 +1,36 @@
 import React, { useState } from "react";
 import "./login.css";
 import { assets } from "../../assets/assets";
+import { useBanking } from "../../context/BankingContext";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { login, error, loading } = useBanking();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showError, setShowError] = useState(false);
+  const [internalError, setInternalError] = useState(false);
+  const [internalErrorMsg, setInternalErrorMsg] = useState("");
+
+  async function handleLogin(e) {
+    e.preventDefault();
+    try {
+      if (email === "" || password === "") {
+        setShowError(true);
+        setInternalError(false);
+        return;
+      }
+      await login(email, password);
+      navigate("/profile");
+    } catch (error) {
+      console.error("login fail: " + error);
+      setInternalError(true);
+      setInternalErrorMsg(error.detail);
+      setShowError(false);
+    }
+  }
+
   return (
     <div className="login-wrapper">
       <div className="login-container">
@@ -10,21 +38,45 @@ const Login = () => {
           <img src={assets.mainLogo} alt="" />
         </div>
 
-        <form>
+        <form onSubmit={handleLogin}>
           <div className="login-form-group">
             <label htmlFor="">Username</label>
-            <input type="text" name="" id="" />
+            <input
+              type="email"
+              name=""
+              id=""
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
 
           <div className="login-form-group">
             <label htmlFor="">Password</label>
-            <input type="password" name="" id="" />
+
+            <input
+              type="password"
+              name=""
+              id=""
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
 
-          <div className="error-text">Invalid email or password</div>
+          {showError && (
+            <div className="error-text">
+              Username or password cannot be empty!
+            </div>
+          )}
+
+          {internalError && (
+            <div className="error-text">
+              {internalErrorMsg ||
+                "Oops! Something went wrong. Please try again later!"}
+            </div>
+          )}
 
           <div className="login-form-footer">
-            <button className="login-btn">Log in</button>
+            <button className="login-btn" type="submit">
+              {loading ? "Login...." : "Log in"}
+            </button>
           </div>
         </form>
       </div>

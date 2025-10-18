@@ -22,6 +22,7 @@ header {
   font-size: 18px;
   font-weight: 500;
   transition: color 0.3s;
+  cursor: pointer;
 }
 
 .nav-right a:hover {
