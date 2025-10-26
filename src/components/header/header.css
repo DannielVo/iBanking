@@ -15,6 +15,10 @@ header {
   height: 65px;
 }
 
+.logo {
+  cursor: pointer;
+}
+
 .nav-right a {
   color: var(--text-color);
   text-decoration: none;

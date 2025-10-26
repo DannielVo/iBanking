@@ -188,7 +188,7 @@ const Profile = () => {
             Payment information
           </p>
 
-          <form action="">
+          <form>
             <div className="details-form-group">
               <label for="">Student ID</label>
               <input

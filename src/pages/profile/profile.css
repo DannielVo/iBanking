@@ -87,10 +87,6 @@
   display: block;
 }
 
-.otp-inactive {
-  /* display: none; */
-}
-
 .guide-text {
   margin-bottom: 15px;
   text-align: center;
