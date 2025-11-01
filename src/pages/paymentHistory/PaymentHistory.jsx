@@ -3,6 +3,7 @@ import "./paymentHistory.css";
 import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
 import { useBanking } from "../../context/BankingContext";
+import { CURRENCY } from "../../assets/assets";
 
 const PaymentHistory = () => {
   const { customerId, fetchPaidPayment, semesters, payments } = useBanking();
@@ -89,7 +90,7 @@ const PaymentHistory = () => {
                     <tr key={`payment${index}`}>
                       <td>{index + 1}</td>
                       <td>{item.customerId}</td>
-                      <td>{item.amount} VND</td>
+                      <td>{item.amount + " " + CURRENCY} </td>
                       <td>
                         {new Date(item.datePayment)
                           .toLocaleDateString("vi-VN")
