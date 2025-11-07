@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { apiRequest, SERVICES } from "../utils/api";
+import { HttpStatusCode } from "axios";
 
 const BankingContext = createContext();
 
@@ -10,6 +11,35 @@ export const BankingContextProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [account, setAccount] = useState(null);
   const [customer, setCustomer] = useState(null);
+  const [semesters, setSemesters] = useState([]);
+  const [payments, setPayments] = useState([]);
+
+  // Lấy thtin paid payment của unpaid customer
+  const fetchPaidPayment = async (customerId) => {
+    // throw new Error("Test loi");
+    if (customerId === 0) {
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await apiRequest("payment", "/paid/" + customerId, {
+        method: "GET",
+      });
+      setSemesters(data.semesters);
+      setPayments(data.payments);
+
+      console.log(data.semesters);
+      console.log(data.payments);
+
+      return data;
+    } catch (err) {
+      setError(err.detail);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const makePayment = async (customerPaymentId) => {
     setLoading(true);
@@ -227,6 +257,9 @@ export const BankingContextProvider = ({ children }) => {
         sendOtpEmail,
         verifyOtpEmail,
         makePayment,
+        fetchPaidPayment,
+        semesters,
+        payments,
       }}
     >
       {children}

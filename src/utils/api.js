@@ -23,13 +23,14 @@ export async function apiRequest(service, endpoint, options = {}) {
         Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
         ...(options.headers || {}),
       },
-      data: options.body ? JSON.parse(options.body) : undefined, // fetch body → axios data
+      data: options.body ? JSON.parse(options.body) : undefined, // fetch body -> axios data
       params: options.params || undefined, // query params nếu có
     });
 
     return response.data; // axios trả về { data, status, headers... }
   } catch (err) {
     console.error("API Request Error:", err.response || err.message);
-    throw err.response?.data || err;
+    // throw err.response?.data || err;
+    throw { status_code: err.response?.status || 500, ...err.response?.data };
   }
 }

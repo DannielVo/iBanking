@@ -21,12 +21,14 @@ const Header = () => {
     <header>
       <div className="header-container">
         <div className="nav-left">
-          <a className="logo">
+          <a className="logo" onClick={() => navigate("/")}>
             <img src={assets.mainLogo} alt="Logo" />
           </a>
         </div>
 
         <div className="nav-right">
+          <a onClick={() => navigate("/profile")}>Home</a>
+          <a onClick={() => navigate("/history")}>Payment History</a>
           <a onClick={handleLogout}>Log out</a>
         </div>
       </div>

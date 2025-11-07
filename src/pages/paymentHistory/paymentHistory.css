@@ -1,0 +1,86 @@
+.history-wrapper {
+  min-height: 80vh;
+  background-color: var(--secondary-background);
+  padding-block: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
+  gap: 20px;
+}
+
+.history-container {
+  min-width: 50%;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  background-color: white;
+}
+
+.history-title {
+  margin: 0 0 25px;
+  font-size: 25px;
+  color: var(--text-color);
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+}
+
+.history-form-group {
+  margin-bottom: 20px;
+}
+
+.history-form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.history-select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: white;
+  box-sizing: border-box;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+.history-select:focus {
+  outline: none;
+  border: 2px solid var(--blue-item);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+}
+
+.history-table th,
+.history-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.history-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+
+.history-table tr:hover {
+  background-color: #f5f5f5;
+}
+
+.error-msg {
+  text-align: center;
+  font-size: 18px;
+  color: red;
+}

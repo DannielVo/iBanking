@@ -3,6 +3,7 @@ import "./profile.css";
 import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
 import { useBanking } from "../../context/BankingContext";
+import { CURRENCY } from "../../assets/assets";
 
 const Profile = () => {
   const {
@@ -188,7 +189,7 @@ const Profile = () => {
             Payment information
           </p>
 
-          <form action="">
+          <form>
             <div className="details-form-group">
               <label for="">Student ID</label>
               <input
@@ -214,7 +215,27 @@ const Profile = () => {
               <input
                 type="text"
                 disabled="true"
-                value={payment?.amount || ""}
+                value={
+                  payment?.amount
+                    ? payment?.amount.toLocaleString("vi-VN") + " " + CURRENCY
+                    : ""
+                }
+              />
+            </div>
+            <div className="details-form-group">
+              <label for="">Semester</label>
+              <input
+                type="text"
+                disabled="true"
+                value={payment?.semester || ""}
+              />
+            </div>
+            <div className="details-form-group">
+              <label for="">Description</label>
+              <input
+                type="text"
+                disabled="true"
+                value={payment?.description || ""}
               />
             </div>
           </form>
@@ -228,7 +249,11 @@ const Profile = () => {
               <input
                 type="text"
                 disabled="true"
-                value={account?.balance || ""}
+                value={
+                  account?.balance
+                    ? account?.balance.toLocaleString("vi-VN") + " " + CURRENCY
+                    : ""
+                }
               />
             </div>
 
