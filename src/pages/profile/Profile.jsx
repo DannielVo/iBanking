@@ -215,7 +215,11 @@ const Profile = () => {
               <input
                 type="text"
                 disabled="true"
-                value={payment?.amount ? payment?.amount + " " + CURRENCY : ""}
+                value={
+                  payment?.amount
+                    ? payment?.amount.toLocaleString("vi-VN") + " " + CURRENCY
+                    : ""
+                }
               />
             </div>
             <div className="details-form-group">
@@ -246,7 +250,9 @@ const Profile = () => {
                 type="text"
                 disabled="true"
                 value={
-                  account?.balance ? account?.balance + " " + CURRENCY : ""
+                  account?.balance
+                    ? account?.balance.toLocaleString("vi-VN") + " " + CURRENCY
+                    : ""
                 }
               />
             </div>
