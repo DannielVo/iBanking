@@ -90,7 +90,9 @@ const PaymentHistory = () => {
                     <tr key={`payment${index}`}>
                       <td>{index + 1}</td>
                       <td>{item.customerId}</td>
-                      <td>{item.amount + " " + CURRENCY} </td>
+                      <td>
+                        {item.amount.toLocaleString("vi-VN") + " " + CURRENCY}{" "}
+                      </td>
                       <td>
                         {new Date(item.datePayment)
                           .toLocaleDateString("vi-VN")
